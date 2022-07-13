@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{product.title}}|{% endblock title %}
+
+{% block content %}
+
+<div class="site-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-9 order-2">
+                <div class="row mb-5">
+                    {% if product.image %}
+                    <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                        <div class="block-4 text-center border">
+                            <figure class="block-4-image">
+                                <img src="{{product.image.url}}"  style="width: 50; height: 50%;"alt="{{product.title}}">
+                            </figure>
+                    {% endif %}
+                    <div class="block-4-text p-4">
+                        <h1 class="title">{{product.title}}, &#8358;{{product.price}}</h1>
+                        <p class="mb-6">
+                            <span class="tag is-dark">{{ product.vendor.name }}</span>
+                        </p>
+
+                        <p class="mb-0">{{product.description}}</p>
+
+                        <hr>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification is-success is-toast">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <div class="field has-addons">
+            <div class="control">
+                <input type="number" name="quantity" value="1" class="input" min="1" id="">
+            </div>
+
+            <div class="control">
+                <button class="button is-dark is-uppercase">Add to Cart</button>
+            </div>
+        </div>
+    </form>
+
+
+    {% if similar_products %}
+        <hr>
+
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h2 class="subtitle">Similar Products</h2>
+            </div>
+
+            {% for product in similar_products %}
+                {% include 'product/parts/list_item.html' %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock content %}
